@@ -1,5 +1,5 @@
 proxy:
- image: proxy:1.0
+ image: amouat/proxy:1.0
  links:
   - identidock
  ports:
@@ -9,7 +9,7 @@ proxy:
   NGINX_PROXY: "http://identidock:9090"
 
 identidock:
- image: registry:5000/identidock:newest
+ image: amouat/identidock:newest
  environment:
   ENV: PROD
  links:
@@ -43,11 +43,16 @@ logstash:
  command: -f /etc/logstash.conf
 
 elasticsearch:
- image: elasticsearch:1.7
- evironment:
+ image: elasticsearch
+ environment:
   LOGSPOUT: ignore
+
 kibana:
- image
+ image: kibana:4
+ environment:
+  LOGSPOUT: ignore
   ELASTICSEARCH_URL: http://elasticsearch:9200
  links:
-  
+  - elasticsearch
+ ports:
+  - "5601:5601"  
